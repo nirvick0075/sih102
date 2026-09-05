@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | MPLAD Intelligence & Anomaly Detection System</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="gov-top-strip"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="gov-emblem">🏛️</div>
+        <div class="sidebar-brand">
+          <h1>MPLAD INTELLIGENCE</h1>
+          <p>SIH26102 Decision Support</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-menu">
+        <div class="menu-section-label">Core Modules</div>
+        <a href="dashboard.html" class="sidebar-link active">
+          <span>📊</span> Overview Dashboard
+        </a>
+        <a href="projects.html" class="sidebar-link">
+          <span>📁</span> Projects Directory
+        </a>
+        <a href="map.html" class="sidebar-link">
+          <span>🗺️</span> GIS Anomaly Map
+        </a>
+        <a href="contractors.html" class="sidebar-link">
+          <span>🏗️</span> Contractors Registry
+        </a>
+        <a href="alerts.html" class="sidebar-link">
+          <span>🔔</span> Anomaly Alerts
+          <span class="badge-count" id="unread-alerts-badge" style="display:none;">0</span>
+        </a>
+
+        <!-- Investigator & Admin Modules -->
+        <div class="menu-section-label investigator-only" data-role="INVESTIGATOR,ADMIN">Investigation & Audit</div>
+        <a href="investigations.html" class="sidebar-link investigator-only" data-role="INVESTIGATOR,ADMIN">
+          <span>🔍</span> Active Cases
+        </a>
+        <a href="reports.html" class="sidebar-link">
+          <span>📑</span> Official Reports
+        </a>
+        <a href="blockchain.html" class="sidebar-link investigator-only" data-role="INVESTIGATOR,ADMIN">
+          <span>🛡️</span> Blockchain Audit
+        </a>
+
+        <!-- Admin Only Modules -->
+        <div class="menu-section-label admin-only" data-role="ADMIN">System Administration</div>
+        <a href="admin.html" class="sidebar-link admin-only" data-role="ADMIN">
+          <span>👥</span> User Management & Logs
+        </a>
+        <a href="ml-management.html" class="sidebar-link admin-only" data-role="ADMIN">
+          <span>🤖</span> AI / ML Management
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-snippet">
+          <div class="user-avatar">A</div>
+          <div class="user-info-text">
+            <div class="name user-display-name">Loading...</div>
+            <span class="role-badge user-display-role">USER</span>
+          </div>
+        </div>
+        <button class="btn-logout-icon" title="Sign Out">🚪</button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-title">
+          <h2>National MPLAD Anomaly & Intelligence Dashboard</h2>
+          <p>AI-Assisted Irregularity & Investigation Priority Scoring (SIH26102 Prototype)</p>
+        </div>
+        <div class="topbar-actions">
+          <span class="status-pill COMPLETED">● System Online</span>
+          <a href="alerts.html" class="btn btn-sm btn-secondary">🔔 Alerts</a>
+        </div>
+      </header>
+
+      <div class="page-body">
+        <!-- Top Executive Metrics KPI Grid -->
+        <section class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-info">
+              <div class="label">Total MPLAD Works</div>
+              <div class="value" id="metric-total-projects">0</div>
+              <div class="subtext">Active Parliamentary Projects</div>
+            </div>
+            <div class="metric-icon">📁</div>
+          </div>
+
+          <div class="metric-card high">
+            <div class="metric-info">
+              <div class="label">Flagged Anomalies</div>
+              <div class="value" id="metric-flagged-projects" style="color:var(--risk-high);">0</div>
+              <div class="subtext">Priority Score ≥ 60/100</div>
+            </div>
+            <div class="metric-icon" style="color:var(--risk-high);background:#fff7ed;">⚠️</div>
+          </div>
+
+          <div class="metric-card critical">
+            <div class="metric-info">
+              <div class="label">Critical Priority</div>
+              <div class="value" id="metric-critical-projects" style="color:var(--risk-critical);">0</div>
+              <div class="subtext">Immediate Review Triggered</div>
+            </div>
+            <div class="metric-icon" style="color:var(--risk-critical);background:#fef2f2;">🚨</div>
+          </div>
+
+          <div class="metric-card warning">
+            <div class="metric-info">
+              <div class="label">Under Investigation</div>
+              <div class="value" id="metric-investigations" style="color:var(--risk-medium);">0</div>
+              <div class="subtext">Active Formal Case Inquiries</div>
+            </div>
+            <div class="metric-icon" style="color:var(--risk-medium);background:#fffbeb;">🔍</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-info">
+              <div class="label">Total Expenditure</div>
+              <div class="value" id="metric-total-expenditure">₹0</div>
+              <div class="subtext">Disbursed Scheme Capital</div>
+            </div>
+            <div class="metric-icon">🏛️</div>
+          </div>
+
+          <div class="metric-card critical">
+            <div class="metric-info">
+              <div class="label">Cost Overrun Volume</div>
+              <div class="value" id="metric-cost-overrun" style="color:var(--risk-critical);">₹0</div>
+              <div class="subtext">Cumulative Budget Variance</div>
+            </div>
+            <div class="metric-icon" style="color:var(--risk-critical);background:#fef2f2;">📈</div>
+          </div>
+        </section>
+
+        <!-- Charts Grid -->
+        <section class="charts-grid">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🎯 Investigation Priority Breakdown</div>
+              <span style="font-size: 11px; color: var(--text-muted);">Explainable AI Risk Tiers</span>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="riskDistributionChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">📊 State-Wise Anomaly Distribution</div>
+              <span style="font-size: 11px; color: var(--text-muted);">Total vs Flagged Projects</span>
+            </div>
+            <div class="card-body">
+              <div class="chart-container">
+                <canvas id="stateAnalysisChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Real-Time Alerts & Watchlist Section -->
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+          <!-- Top Suspicious Projects Table -->
+          <div class="card" style="margin-bottom: 0;">
+            <div class="card-header">
+              <div class="card-title">⚡ High Investigation Priority Watchlist</div>
+              <a href="projects.html?riskLevel=HIGH" class="btn btn-sm btn-secondary">View All Projects →</a>
+            </div>
+            <div class="card-body" style="padding: 0;">
+              <div class="table-responsive">
+                <table class="gov-table">
+                  <thead>
+                    <tr>
+                      <th>Project ID</th>
+                      <th>Project Name</th>
+                      <th>District / State</th>
+                      <th>Budget</th>
+                      <th>AI Priority</th>
+                      <th>Risk Level</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="top-projects-tbody">
+                    <!-- Populated by dashboard.js -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Real-Time Anomaly Ticker -->
+          <div class="card" style="margin-bottom: 0;">
+            <div class="card-header">
+              <div class="card-title">🔔 Recent Anomaly Alerts</div>
+              <a href="alerts.html" class="btn btn-sm btn-secondary">All Alerts</a>
+            </div>
+            <div class="card-body" id="dashboard-alerts-feed">
+              <!-- Populated by dashboard.js -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

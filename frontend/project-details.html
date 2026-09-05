@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project 360° Dossier | MPLAD Intelligence System</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    @media print {
+      .sidebar, .topbar, .btn, #btn-print-report, #btn-reevaluate-ai, .investigator-only { display: none !important; }
+      .app-container { display: block; }
+      .main-content { width: 100%; margin: 0; padding: 0; }
+      .page-body { padding: 0; }
+      .card { box-shadow: none; border: 1px solid #000; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="gov-top-strip"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="gov-emblem">🏛️</div>
+        <div class="sidebar-brand">
+          <h1>MPLAD INTELLIGENCE</h1>
+          <p>SIH26102 Decision Support</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-menu">
+        <div class="menu-section-label">Core Modules</div>
+        <a href="dashboard.html" class="sidebar-link">
+          <span>📊</span> Overview Dashboard
+        </a>
+        <a href="projects.html" class="sidebar-link active">
+          <span>📁</span> Projects Directory
+        </a>
+        <a href="map.html" class="sidebar-link">
+          <span>🗺️</span> GIS Anomaly Map
+        </a>
+        <a href="contractors.html" class="sidebar-link">
+          <span>🏗️</span> Contractors Registry
+        </a>
+        <a href="alerts.html" class="sidebar-link">
+          <span>🔔</span> Anomaly Alerts
+          <span class="badge-count" id="unread-alerts-badge" style="display:none;">0</span>
+        </a>
+
+        <!-- Investigator & Admin Modules -->
+        <div class="menu-section-label investigator-only" data-role="INVESTIGATOR,ADMIN">Investigation & Audit</div>
+        <a href="investigations.html" class="sidebar-link investigator-only" data-role="INVESTIGATOR,ADMIN">
+          <span>🔍</span> Active Cases
+        </a>
+        <a href="reports.html" class="sidebar-link">
+          <span>📑</span> Official Reports
+        </a>
+        <a href="blockchain.html" class="sidebar-link investigator-only" data-role="INVESTIGATOR,ADMIN">
+          <span>🛡️</span> Blockchain Audit
+        </a>
+
+        <!-- Admin Only Modules -->
+        <div class="menu-section-label admin-only" data-role="ADMIN">System Administration</div>
+        <a href="admin.html" class="sidebar-link admin-only" data-role="ADMIN">
+          <span>👥</span> User Management & Logs
+        </a>
+        <a href="ml-management.html" class="sidebar-link admin-only" data-role="ADMIN">
+          <span>🤖</span> AI / ML Management
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-snippet">
+          <div class="user-avatar">A</div>
+          <div class="user-info-text">
+            <div class="name user-display-name">Loading...</div>
+            <span class="role-badge user-display-role">USER</span>
+          </div>
+        </div>
+        <button class="btn-logout-icon" title="Sign Out">🚪</button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-title">
+          <h2>Project 360° Intelligence Dossier</h2>
+          <p><a href="projects.html" style="color:var(--gov-blue);text-decoration:none;">← Back to Projects</a> &nbsp;|&nbsp; <span id="p-id">Loading...</span></p>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn btn-sm btn-secondary" id="btn-reevaluate-ai">
+            ⚡ Re-run AI Anomaly Engine
+          </button>
+          <button class="btn btn-sm btn-primary" id="btn-print-report">
+            🖨️ Print / Save Dossier
+          </button>
+        </div>
+      </header>
+
+      <div class="page-body">
+        <!-- Project Title Banner Card -->
+        <div class="card">
+          <div class="card-body" style="padding: 20px 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
+              <div>
+                <span class="status-pill" id="p-category" style="margin-bottom: 6px;">Category</span>
+                <h2 style="font-size: 20px; font-weight: 800; color: var(--gov-navy-dark); margin: 4px 0;" id="p-title">
+                  Loading Project Dossier...
+                </h2>
+                <p style="font-size: 13px; color: var(--text-secondary);" id="p-location">
+                  Location details...
+                </p>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">Status</div>
+                <span class="status-pill" id="p-status">IN_PROGRESS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Explainable AI (XAI) Assessment Section -->
+        <div class="card" style="border-left: 4px solid var(--gov-navy);">
+          <div class="card-header">
+            <div class="card-title">🤖 Explainable AI Anomaly Assessment (XAI)</div>
+            <span style="font-size: 11px; color: var(--text-muted);">Non-Accusatory Investigation Priority Indicator</span>
+          </div>
+          <div class="card-body">
+            <div style="display: grid; grid-template-columns: 1.2fr 2fr; gap: 24px;">
+              <!-- Left: Score Meter -->
+              <div>
+                <div class="score-circle-container" id="score-meter-container">
+                  <!-- Populated by project-details.js -->
+                </div>
+
+                <div style="margin-top: 16px;">
+                  <strong style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase;">Flagged Anomaly Reasons:</strong>
+                  <ul class="reasons-list" id="anomaly-reasons-list">
+                    <!-- Populated by project-details.js -->
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Right: Factor Contribution Bars -->
+              <div>
+                <strong style="font-size: 12px; color: var(--text-secondary); text-transform: uppercase; display: block; margin-bottom: 12px;">
+                  Risk Factor Contribution Breakdown (% of Priority Score)
+                </strong>
+                <div id="factor-bars-container">
+                  <!-- Populated by project-details.js -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2-Column Grid: Financial & Timeline / Contractor -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          <!-- Financial & Timeline Breakdown -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">💰 Financial & Milestone Progress</div>
+            </div>
+            <div class="card-body">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
+                <div style="padding: 12px; background: #f8fafc; border-radius: var(--radius-sm);">
+                  <div style="font-size: 11px; color: var(--text-muted);">Sanctioned Budget</div>
+                  <strong style="font-size: 15px;" id="p-sanctioned">₹0</strong>
+                </div>
+                <div style="padding: 12px; background: #f8fafc; border-radius: var(--radius-sm);">
+                  <div style="font-size: 11px; color: var(--text-muted);">Estimated Cost</div>
+                  <strong style="font-size: 15px;" id="p-estimated">₹0</strong>
+                </div>
+                <div style="padding: 12px; background: #f8fafc; border-radius: var(--radius-sm);">
+                  <div style="font-size: 11px; color: var(--text-muted);">Actual Recorded Cost</div>
+                  <strong style="font-size: 15px;" id="p-actual">₹0</strong>
+                </div>
+                <div style="padding: 12px; background: #f8fafc; border-radius: var(--radius-sm);">
+                  <div style="font-size: 11px; color: var(--text-muted);">Total Disbursed</div>
+                  <strong style="font-size: 15px;" id="p-paid">₹0</strong>
+                </div>
+              </div>
+
+              <div style="border-top: 1px solid var(--border-color); padding-top: 12px; display: flex; justify-content: space-between; font-size: 13px;">
+                <span>Cost Deviation Ratio:</span>
+                <strong id="p-cost-deviation">0%</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 13px; margin-top: 6px;">
+                <span>Schedule Delay:</span>
+                <strong id="p-delay-days" style="color: #ea580c;">0 Days</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 13px; margin-top: 6px;">
+                <span>Target Completion:</span>
+                <span id="p-expected-date">N/A</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 13px; margin-top: 6px;">
+                <span>Start Date:</span>
+                <span id="p-start-date">N/A</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contractor Profile Snapshot -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🏗️ Executing Contractor Profile</div>
+            </div>
+            <div class="card-body">
+              <div style="margin-bottom: 14px;">
+                <h4 style="font-size: 15px; font-weight: 700; color: var(--gov-navy-dark);" id="c-name">Loading...</h4>
+                <p style="font-size: 11px; color: var(--text-muted);" id="c-reg">Reg: N/A</p>
+              </div>
+
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div style="padding: 10px; background: #f8fafc; border-radius: var(--radius-sm);">
+                  <div style="font-size: 11px; color: var(--text-muted);">Historical Delay Rate</div>
+                  <strong style="font-size: 14px;" id="c-delay-rate">0%</strong>
+                </div>
+                <div style="padding: 10px; background: #f8fafc; border-radius: var(--radius-sm);">
+                  <div style="font-size: 11px; color: var(--text-muted);">Cost Overrun Frequency</div>
+                  <strong style="font-size: 14px;" id="c-overrun-rate">0%</strong>
+                </div>
+                <div style="padding: 10px; background: #f8fafc; border-radius: var(--radius-sm);">
+                  <div style="font-size: 11px; color: var(--text-muted);">Historical Anomaly Rate</div>
+                  <strong style="font-size: 14px;" id="c-anomaly-rate">0%</strong>
+                </div>
+                <div style="padding: 10px; background: #f8fafc; border-radius: var(--radius-sm);">
+                  <div style="font-size: 11px; color: var(--text-muted);">Verified Issues Count</div>
+                  <strong style="font-size: 14px; color: #dc2626;" id="c-verified-issues">0</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Milestones & Payments Grid -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          <!-- Milestones Card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🏁 Physical Milestones Status</div>
+            </div>
+            <div class="card-body" id="milestones-list" style="padding: 8px 16px;">
+              <!-- Populated by project-details.js -->
+            </div>
+          </div>
+
+          <!-- Payments History Card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">💳 Disbursed Installments Ledger</div>
+            </div>
+            <div class="card-body" style="padding: 0;">
+              <div class="table-responsive">
+                <table class="gov-table">
+                  <thead>
+                    <tr>
+                      <th>Payment ID</th>
+                      <th>Amount</th>
+                      <th>Date</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="payments-tbody">
+                    <!-- Populated by project-details.js -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Evidence Gallery & Blockchain Integrity -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">🛡️ Site Inspection Evidence & Blockchain Audit Trail</div>
+          </div>
+          <div class="card-body" id="evidence-gallery">
+            <!-- Populated by project-details.js -->
+          </div>
+        </div>
+
+        <!-- Investigation Workbench Card -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">🔍 Investigation Disposition & Case File</div>
+          </div>
+          <div class="card-body" id="investigation-section-content">
+            <!-- Populated by project-details.js -->
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/project-details.js"></script>
+</body>
+</html>

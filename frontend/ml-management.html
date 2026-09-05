@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI/ML Management | MPLAD Intelligence System</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="gov-top-strip"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="gov-emblem">🏛️</div>
+        <div class="sidebar-brand">
+          <h1>MPLAD INTELLIGENCE</h1>
+          <p>SIH26102 Decision Support</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-menu">
+        <div class="menu-section-label">Core Modules</div>
+        <a href="dashboard.html" class="sidebar-link">
+          <span>📊</span> Overview Dashboard
+        </a>
+        <a href="projects.html" class="sidebar-link">
+          <span>📁</span> Projects Directory
+        </a>
+        <a href="map.html" class="sidebar-link">
+          <span>🗺️</span> GIS Anomaly Map
+        </a>
+        <a href="contractors.html" class="sidebar-link">
+          <span>🏗️</span> Contractors Registry
+        </a>
+        <a href="alerts.html" class="sidebar-link">
+          <span>🔔</span> Anomaly Alerts
+          <span class="badge-count" id="unread-alerts-badge" style="display:none;">0</span>
+        </a>
+
+        <!-- Investigator & Admin Modules -->
+        <div class="menu-section-label investigator-only" data-role="INVESTIGATOR,ADMIN">Investigation & Audit</div>
+        <a href="investigations.html" class="sidebar-link investigator-only" data-role="INVESTIGATOR,ADMIN">
+          <span>🔍</span> Active Cases
+        </a>
+        <a href="reports.html" class="sidebar-link">
+          <span>📑</span> Official Reports
+        </a>
+        <a href="blockchain.html" class="sidebar-link investigator-only" data-role="INVESTIGATOR,ADMIN">
+          <span>🛡️</span> Blockchain Audit
+        </a>
+
+        <!-- Admin Only Modules -->
+        <div class="menu-section-label admin-only" data-role="ADMIN">System Administration</div>
+        <a href="admin.html" class="sidebar-link admin-only" data-role="ADMIN">
+          <span>👥</span> User Management & Logs
+        </a>
+        <a href="ml-management.html" class="sidebar-link active admin-only" data-role="ADMIN">
+          <span>🤖</span> AI / ML Management
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-snippet">
+          <div class="user-avatar">A</div>
+          <div class="user-info-text">
+            <div class="name user-display-name">Loading...</div>
+            <span class="role-badge user-display-role">ADMIN</span>
+          </div>
+        </div>
+        <button class="btn-logout-icon" title="Sign Out">🚪</button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-title">
+          <h2>Machine Learning Lifecycle & Model Governance</h2>
+          <p>Train new anomaly models, inspect evaluation metrics, activate versions, and calibrate risk weights</p>
+        </div>
+        <div class="topbar-actions">
+          <span id="ml-health-badge" class="status-pill COMPLETED">Checking ML Engine...</span>
+        </div>
+      </header>
+
+      <div class="page-body">
+        <!-- Active Model Highlight Card -->
+        <div class="card" id="active-model-card" style="border-left: 4px solid var(--gov-blue); padding: 20px;">
+          <!-- Populated by ml-management.js -->
+        </div>
+
+        <!-- 2-Column Grid: Train Model / Risk Weight Calibration -->
+        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px;">
+          <!-- Training Pipeline Card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🚀 Retrain / Fit Machine Learning Model</div>
+            </div>
+            <div class="card-body">
+              <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 16px;">
+                Upload a training dataset CSV or train on accumulated historical investigation outcomes. The trained model will be registered as a new candidate version for evaluation before activation.
+              </p>
+
+              <div class="form-group">
+                <label class="form-label" for="train-model-type">Model Algorithm Architecture</label>
+                <select id="train-model-type" class="form-control">
+                  <option value="Isolation Forest" selected>Isolation Forest (Unsupervised Anomaly Isolation)</option>
+                  <option value="Random Forest">Random Forest (Supervised Historical Outcome Classifier)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Training Dataset CSV (Optional)</label>
+                <input type="file" id="training-csv-input" class="form-control" accept=".csv">
+                <span style="font-size: 11px; color: var(--text-muted); display: block; margin-top: 4px;">
+                  If no file is attached, the pipeline trains using historical closed cases & synthetic benchmarks.
+                </span>
+              </div>
+
+              <div style="padding: 10px 12px; background: #fff7ed; border-radius: var(--radius-sm); border: 1px solid #fed7aa; margin-bottom: 16px; font-size: 11px; color: #7c2d12;">
+                ⚠️ <strong>Demonstration Notice:</strong> Models are trained on synthetic benchmarks. The system produces investigation priority guidance, not proof of fraud.
+              </div>
+
+              <button class="btn btn-primary" id="btn-start-training" style="width: 100%;">
+                🚀 Start Model Training Pipeline
+              </button>
+            </div>
+          </div>
+
+          <!-- Risk Weight Calibration Card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">⚖️ Anomaly Scoring Weights Calibration</div>
+            </div>
+            <div class="card-body">
+              <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 14px;">
+                Adjust the percentage weight assigned to each anomaly vector (Total must equal 100%):
+              </p>
+
+              <div class="form-group" style="margin-bottom: 10px;">
+                <label class="form-label">Cost Escalation Weight (%)</label>
+                <input type="number" id="weight-cost" class="form-control" min="0" max="100" value="25">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 10px;">
+                <label class="form-label">Timeline & Delay Weight (%)</label>
+                <input type="number" id="weight-delay" class="form-control" min="0" max="100" value="20">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 10px;">
+                <label class="form-label">Contractor Risk Profile Weight (%)</label>
+                <input type="number" id="weight-contractor" class="form-control" min="0" max="100" value="20">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 10px;">
+                <label class="form-label">Payment vs Milestone Progress Weight (%)</label>
+                <input type="number" id="weight-payment" class="form-control" min="0" max="100" value="20">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 14px;">
+                <label class="form-label">Duplicate / Geographic Density Weight (%)</label>
+                <input type="number" id="weight-duplicate" class="form-control" min="0" max="100" value="15">
+              </div>
+
+              <button class="btn btn-secondary" id="btn-save-weights" style="width: 100%;">
+                💾 Save Scoring Weights
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Registered Model Versions Table -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">📦 Registered Model Versions & Evaluation Metrics</div>
+          </div>
+          <div class="card-body" style="padding: 0;">
+            <div class="table-responsive">
+              <table class="gov-table">
+                <thead>
+                  <tr>
+                    <th>Version Tag</th>
+                    <th>Model Architecture</th>
+                    <th>Training Size</th>
+                    <th>Evaluation Metrics</th>
+                    <th>Trained Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="models-tbody">
+                  <!-- Populated by ml-management.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ml-management.js"></script>
+</body>
+</html>

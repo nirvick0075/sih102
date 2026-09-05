@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investigation Reports | MPLAD Intelligence System</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    @media print {
+      .sidebar, .topbar, .btn, .filter-toolbar, .no-print { display: none !important; }
+      .app-container { display: block; }
+      .main-content { width: 100%; margin: 0; padding: 0; }
+      .page-body { padding: 0; }
+      #report-output-card { display: block !important; border: none; box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="gov-top-strip"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="gov-emblem">🏛️</div>
+        <div class="sidebar-brand">
+          <h1>MPLAD INTELLIGENCE</h1>
+          <p>SIH26102 Decision Support</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-menu">
+        <div class="menu-section-label">Core Modules</div>
+        <a href="dashboard.html" class="sidebar-link">
+          <span>📊</span> Overview Dashboard
+        </a>
+        <a href="projects.html" class="sidebar-link">
+          <span>📁</span> Projects Directory
+        </a>
+        <a href="map.html" class="sidebar-link">
+          <span>🗺️</span> GIS Anomaly Map
+        </a>
+        <a href="contractors.html" class="sidebar-link">
+          <span>🏗️</span> Contractors Registry
+        </a>
+        <a href="alerts.html" class="sidebar-link">
+          <span>🔔</span> Anomaly Alerts
+          <span class="badge-count" id="unread-alerts-badge" style="display:none;">0</span>
+        </a>
+
+        <!-- Investigator & Admin Modules -->
+        <div class="menu-section-label investigator-only" data-role="INVESTIGATOR,ADMIN">Investigation & Audit</div>
+        <a href="investigations.html" class="sidebar-link investigator-only" data-role="INVESTIGATOR,ADMIN">
+          <span>🔍</span> Active Cases
+        </a>
+        <a href="reports.html" class="sidebar-link active">
+          <span>📑</span> Official Reports
+        </a>
+        <a href="blockchain.html" class="sidebar-link investigator-only" data-role="INVESTIGATOR,ADMIN">
+          <span>🛡️</span> Blockchain Audit
+        </a>
+
+        <!-- Admin Only Modules -->
+        <div class="menu-section-label admin-only" data-role="ADMIN">System Administration</div>
+        <a href="admin.html" class="sidebar-link admin-only" data-role="ADMIN">
+          <span>👥</span> User Management & Logs
+        </a>
+        <a href="ml-management.html" class="sidebar-link admin-only" data-role="ADMIN">
+          <span>🤖</span> AI / ML Management
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-snippet">
+          <div class="user-avatar">A</div>
+          <div class="user-info-text">
+            <div class="name user-display-name">Loading...</div>
+            <span class="role-badge user-display-role">USER</span>
+          </div>
+        </div>
+        <button class="btn-logout-icon" title="Sign Out">🚪</button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-title">
+          <h2>Official Investigation Reports & Dossier Generator</h2>
+          <p>Export standardized, tamper-evident audit reports with AI assessments and blockchain integrity stamps</p>
+        </div>
+      </header>
+
+      <div class="page-body">
+        <!-- Generator Controls Card -->
+        <div class="card no-print">
+          <div class="card-header">
+            <div class="card-title">📑 Select Project for Official Audit Report Generation</div>
+          </div>
+          <div class="card-body">
+            <div style="display: flex; gap: 14px; align-items: flex-end; flex-wrap: wrap;">
+              <div class="form-group" style="flex: 1; min-width: 300px; margin-bottom: 0;">
+                <label class="form-label" for="report-project-select">Target MPLAD Project</label>
+                <select id="report-project-select" class="form-control">
+                  <option value="">Loading project repository...</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" id="btn-generate-report">
+                📄 Generate Official Report
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Generated Report Preview Container -->
+        <div id="report-output-card" style="display: none;">
+          <div id="printable-report-preview">
+            <!-- Populated by reports.js -->
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/reports.js"></script>
+</body>
+</html>

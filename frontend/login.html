@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | MPLAD Intelligence & Anomaly Detection Portal (SIH26102)</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="login-page-wrapper">
+  <!-- Government Portal Top Strip -->
+  <div class="gov-top-strip"></div>
+
+  <!-- Header -->
+  <header class="login-nav-header">
+    <div class="gov-emblem">🏛️</div>
+    <div>
+      <h1>MPLAD Intelligence & Anomaly Detection System</h1>
+      <p style="font-size: 11px; color: #94a3b8;">Ministry of Statistics and Programme Implementation (MoSPI) • SIH26102 Prototype</p>
+    </div>
+  </header>
+
+  <!-- Login Card Container -->
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-card-header">
+        <div style="font-size: 32px; margin-bottom: 8px;">🇮🇳</div>
+        <h2>Sign In to Intelligence Portal</h2>
+        <p>Enter your authorized government credentials to access the audit dashboard</p>
+      </div>
+
+      <!-- MANDATORY SINGLE LOGIN FORM (NO ROLE SELECTOR) -->
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="email">Official Email Address <span class="required">*</span></label>
+          <input 
+            type="email" 
+            id="email" 
+            class="form-control" 
+            placeholder="e.g. admin@demo.com or officer@gov.in" 
+            required 
+            autocomplete="email"
+          >
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password <span class="required">*</span></label>
+          <input 
+            type="password" 
+            id="password" 
+            class="form-control" 
+            placeholder="Enter account password" 
+            required 
+            autocomplete="current-password"
+          >
+        </div>
+
+        <button type="submit" id="login-submit-btn" class="btn btn-primary" style="width: 100%; padding: 11px; font-size: 14px; margin-top: 8px;">
+          Sign In to Portal
+        </button>
+      </form>
+
+      <!-- Predefined Demo Credentials Helper Box -->
+      <div class="demo-credentials-box">
+        <h5>💡 Demonstration Credentials</h5>
+        <div class="cred-row">
+          <span>Administrator:</span>
+          <code>admin@demo.com</code> / <code>Admin@123</code>
+        </div>
+        <div class="cred-row">
+          <span>Investigator:</span>
+          <code>investigator@demo.com</code> / <code>Investigator@123</code>
+        </div>
+        <div style="margin-top: 8px; font-size: 10px; color: var(--text-muted); border-top: 1px dashed #cbd5e1; padding-top: 6px;">
+          * <strong>Automatic User Registration:</strong> Any unrecognized email will be automatically registered as a citizen/viewer <code>USER</code> account.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
